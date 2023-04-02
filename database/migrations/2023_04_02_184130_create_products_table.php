@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 64);
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->decimal('price_forSale', $precision = 10, $scale = 2);
+            $table->decimal('price_fromSupplier', $precision = 10, $scale = 2);
             $table->timestamps();
         });
     }
