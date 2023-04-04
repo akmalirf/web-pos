@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="https://eduwork.id/images/favicon.png" type="image/x-icon">
-  <title> Perpustakaan | Dashboard</title>
+  <title>Website PointofSale - @yield('title')</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -41,26 +41,6 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -133,7 +113,15 @@
             <a href="{{ url('/home')}}" class="nav-link {{request()->is('home') ? 'active' : '' }}">
               <i class="far fa-solid fa-house nav-icon"></i>
               <p>
-                Dashboard
+                Home
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('/categories')}}" class="nav-link {{request()->is('categories') ? 'active' : '' }}">
+              <i class="far fa-solid fa-house nav-icon"></i>
+              <p>
+                Categories
               </p>
             </a>
           </li>
@@ -198,6 +186,7 @@
 <script src="{{asset('assets/dist/js/adminlte.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
 @yield('js')
 </body>
 </html>
