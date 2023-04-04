@@ -25,7 +25,7 @@ class CategoryController extends Controller
     public function api()
     {
         $categories = Category::select('*')->withCount('products')->get();
-        
+
         //return $categories;
         return json_encode($categories);
     }
@@ -51,7 +51,7 @@ class CategoryController extends Controller
         $file = $request->file('image');
         $path = time() . '_' . $request->name . '_' . $file->getClientOriginalExtension();
 
-        Storage::disk('local')->put('public/categories/'.$path,file_get_contents($file));
+        Storage::disk('local')->put('public/categories/' . $path, file_get_contents($file));
 
         Category::create([
             'name' => $request->name,
@@ -86,7 +86,22 @@ class CategoryController extends Controller
             'name' => 'required',
         ],);
 
-        $category->update($request->all());
+        if ($request->image == null) {
+            $category->update([
+                'name' => $request->name
+            ]);
+        } else {
+            Storage::delete('public/categories/' . $category->image);
+
+            $file = $request->file('image');
+            $path = time() . '_' . $request->name . '_' . $file->getClientOriginalExtension();
+
+            Storage::disk('local')->put('public/categories/' . $path, file_get_contents($file));
+            $category->update([
+                'name' => $request->name,
+                'image' => $path
+            ]);
+        }
 
         return redirect('categories');
     }
@@ -96,8 +111,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        Storage::delete('public/categories/' . $category->image);
         $category->delete();
-        
+
         return redirect('categories');
     }
 }

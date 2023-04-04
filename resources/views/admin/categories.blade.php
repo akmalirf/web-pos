@@ -22,14 +22,15 @@
 
         <div class="row">
             <div class="col-md-3 col-sm-4 mb-3" v-for="category in filteredList" :key="category.id">
-              <div class="card h-100" v-on:click="editData(category)">
-                <img :src="('storage/categories/') + category.image" alt="image" class="card-img-top" height="auto" width="100%">
-                <div class="card-body">
-                  <h5 class="card-title">@{{ category.name }}</h5>
-                  <p class="card-text">@{{ category.products_count }}</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="card h-100" v-on:click="editData(category)">
+                    <img :src="('storage/categories/') + category.image" alt="image" class="card-img-top" width="100%"
+                        style="height: 400px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>@{{ category.name }}</strong></h5>
+                        <p class="card-text">@{{ category.products_count }}</p>
+                        <a href="#" class="btn btn-primary btn-sm">Go somewhere</a>
+                    </div>
                 </div>
-              </div>
             </div>
         </div>
 

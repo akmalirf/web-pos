@@ -125,6 +125,22 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ url('/suppliers')}}" class="nav-link {{request()->is('suppliers') ? 'active' : '' }}">
+              <i class="far fa-solid fa-house nav-icon"></i>
+              <p>
+                Suppliers
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('/products')}}" class="nav-link {{request()->is('products') ? 'active' : '' }}">
+              <i class="far fa-solid fa-house nav-icon"></i>
+              <p>
+                Product
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -185,7 +201,7 @@
 <!-- AdminLTE App -->
 <script src="{{asset('assets/dist/js/adminlte.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{{-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
 @yield('js')
 </body>
