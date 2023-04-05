@@ -141,6 +141,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ url('/customers')}}" class="nav-link {{request()->is('customers') ? 'active' : '' }}">
+              <i class="far fa-solid fa-house nav-icon"></i>
+              <p>
+                Customers
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Supplier;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
-class SupplierController extends Controller
+class CustomerController extends Controller
 {
     public function __construct()
     {
@@ -15,16 +15,16 @@ class SupplierController extends Controller
 
     public function index()
     {
-        return view('admin.supplier');
+        return view('admin.customer');
     }
 
     public function api()
     {
-        $suppliers = Supplier::all();
+        $customers = Customer::all();
 
-        $datatables = datatables()->of($suppliers)
-            ->addColumn('date', function ($supplier) {
-                return convert_date($supplier->created_at);
+        $datatables = datatables()->of($customers)
+            ->addColumn('date', function ($customer) {
+                return convert_date($customer->created_at);
             })
             ->addIndexColumn();
 
@@ -40,26 +40,26 @@ class SupplierController extends Controller
             'email' => 'required',
         ],);
 
-        Supplier::create($request->all());
+        Customer::create($request->all());
 
-        return redirect('suppliers');
+        return redirect('customers');
     }
 
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, Customer $customer)
     {
         $this->validate($request, [
             'name' => 'required',
         ],);
 
-        $supplier->update($request->all());
+        $customer->update($request->all());
 
-        return redirect('suppliers');
+        return redirect('customers');
     }
 
-    public function destroy(Supplier $supplier)
+    public function destroy(Customer $customer)
     {
-        $supplier->delete();
+        $customer->delete();
 
-        return redirect('supplier');
+        return redirect('customer');
     }
 }

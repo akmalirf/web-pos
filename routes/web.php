@@ -16,11 +16,10 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('/categories', App\Http\Controllers\CategoryController::class);
@@ -31,3 +30,9 @@ Route::get('/api/suppliers', [App\Http\Controllers\SupplierController::class, 'a
 
 Route::resource('/products', App\Http\Controllers\ProductController::class);
 Route::get('/api/products', [App\Http\Controllers\ProductController::class, 'api']);
+
+Route::resource('/orders', App\Http\Controllers\OrderController::class);
+Route::get('/api/orders', [App\Http\Controllers\OrderController::class, 'api']);
+
+Route::resource('/customers', App\Http\Controllers\CustomerController::class);
+Route::get('/api/customers', [App\Http\Controllers\CustomerController::class, 'api']);

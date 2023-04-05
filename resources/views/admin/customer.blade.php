@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Suppliers')
+@section('title','Customers')
 
 @section('css')
 <!-- DataTables -->
@@ -15,11 +15,11 @@
       <div class="card">
         <div class="card-header">
           <a href="#" class="btn btn-primary pull-right" @click="addData()">
-            Create new Supplier
+            Create new Customers
           </a>
         </div>
         <div class="card-body">
-          <table id="dataSuppliers" class="table table-bordered table-striped" style="width: 100%">
+          <table id="dataCustomers" class="table table-bordered table-striped" style="width: 100%">
             <thead >
               <tr class="text-center" >
                 <th width="30px">No.</th>
@@ -41,7 +41,7 @@
         <form :action="actionUrl" method="POST" autocomplete="off" @submit="submitForm($event, data.id)">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Supplier</h4>
+              <h4 class="modal-title">Customer</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -90,8 +90,8 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <script type="text/javascript">
-  var actionUrl = `{{url('suppliers')}}`;
-  var apiUrl = `{{url('api/suppliers')}}`;
+  var actionUrl = `{{url('customers')}}`;
+  var apiUrl = `{{url('api/customers')}}`;
 
   var columns = [
     {data:'DT_RowIndex',class:'text-center',orderable:true},
@@ -125,7 +125,7 @@
     methods: {
       datatable(){
         const _this = this;
-        _this.table = $('#dataSuppliers').DataTable({
+        _this.table = $('#dataCustomers').DataTable({
           ajax: {
             url: _this.apiUrl,
             type:'GET',

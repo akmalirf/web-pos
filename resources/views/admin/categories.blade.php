@@ -21,7 +21,7 @@
         <hr>
 
         <div class="row">
-            <div class="col-md-3 col-sm-4 mb-3" v-for="category in filteredList" :key="category.id">
+            <div class="col-md-3 col-sm-4 mb-3" v-for="category in filteredList" id="mydiv">
                 <div class="card h-100" v-on:click="editData(category)">
                     <img :src="('storage/categories/') + category.image" alt="image" class="card-img-top" width="100%"
                         style="height: 400px; object-fit: cover;">
@@ -90,7 +90,7 @@
                 this.get_categories();
             },
             methods: {
-                get_categories() {
+                get_categories(){
                     const _this = this;
                     $.ajax({
                         url: apiUrl,
@@ -102,6 +102,10 @@
                             console.log(error);
                         }
                     });
+                },
+                refresh(){
+                    $("#mydiv").load('categories.blade.php'+ " #mydiv");
+                    get_categories();
                 },
                 addData() {
                     this.category = {};
@@ -115,7 +119,7 @@
                     $('#modal-default').modal();
                 },
                 numberWithSpaces(x) {
-                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 },
                 deleteData(id) {
                     console.log(id);
@@ -125,7 +129,7 @@
                             _method: 'DELETE'
                         }).then(response => {
                             alert('Data has been remove');
-                            location.reload();
+                            this.get_categories().reload();
                         });
                     };
                 },
@@ -136,7 +140,7 @@
 
                     axios.post(actionUrl, new FormData($(event.target)[0])).then(response => {
                         $('#modal-default').modal('hide');
-                        location.reload();
+                        this.get_categories().reload();
                     });
                 },
             },
