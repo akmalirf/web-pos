@@ -43,8 +43,9 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 1; $i <= 10; $i++) {
             DB::table('products')->insert([
-                'name' => $faker->name,
+                'name' => 'Product'.$i,
                 'image' => '1680653843_tes_jpg',
+                'stock' => '40',
                 'price_forSale' => '10000',
                 'price_fromSupplier' => '8000',
                 'category_id' => rand(1,4),

@@ -32,7 +32,11 @@ Route::resource('/products', App\Http\Controllers\ProductController::class);
 Route::get('/api/products', [App\Http\Controllers\ProductController::class, 'api']);
 
 Route::resource('/orders', App\Http\Controllers\OrderController::class);
+Route::resource('/orderdetails', App\Http\Controllers\OrderDetailController::class);
 Route::get('/api/orders', [App\Http\Controllers\OrderController::class, 'api']);
+Route::get('/apiOrder/orders', [App\Http\Controllers\OrderController::class, 'apiOrder']);
+Route::get('orders/{orders}', [App\Http\Controllers\OrderController::class, 'add'])->name('orders.detail');
+Route::get('/api/orderdetails', [App\Http\Controllers\OrderDetailController::class, 'api']);
 
 Route::resource('/customers', App\Http\Controllers\CustomerController::class);
 Route::get('/api/customers', [App\Http\Controllers\CustomerController::class, 'api']);

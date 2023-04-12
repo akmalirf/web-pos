@@ -19,16 +19,16 @@
           </a>
         </div>
         <div class="card-body">
-          <table id="dataCustomers" class="table table-bordered table-striped" style="width: 100%">
+          <table id="dataCustomers" class=" table table-bordered table-striped w-100">
             <thead >
               <tr class="text-center" >
-                <th width="30px">No.</th>
+                <th>No.</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone number</th>
                 <th>Address</th>
                 <th>Created at</th>
-                <th class="text-right">Action</th>
+                <th>Action</th>
               </tr>
             </thead>
           </table>
@@ -93,6 +93,7 @@
   var actionUrl = `{{url('customers')}}`;
   var apiUrl = `{{url('api/customers')}}`;
 
+  
   var columns = [
     {data:'DT_RowIndex',class:'text-center',orderable:true},
     {data:'name',class:'text-center',orderable:true},
@@ -100,15 +101,17 @@
     {data:'phone_number',class:'text-center',orderable:true},
     {data:'address',class:'text-center',orderable:true},
     {data:'date',class:'text-center',orderable:true},
-    {render: function (index, row, data, meta) {
+    {render: function ( index, row, data, meta) {
         return `
-              <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event,${meta.row})">
+        <div>
+              <a class='btn btn-warning btn-sm' onclick='controller.editData(event,${meta.row})'>
                 Edit
               </a>
-              <a class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id})">
+              <a class='btn btn-danger btn-sm' onclick='controller.deleteData(event, ${data.id})'>
                 Delete
-              </a>`;    
-    }, orderable:false, width: "200px", class:"text-center"},
+              </a>
+        </div>`;
+    },orderable:false, width:'200px', class:'text-center'},
   ];
   var controller = new Vue({
     el: '#controller',
@@ -130,7 +133,9 @@
             url: _this.apiUrl,
             type:'GET',
           },
-          columns:columns
+          responsive: true,
+          columnDefs: [ { "defaultContent": "-", "targets": "_all" } ],
+          columns:columns,
         }).on('xhr', function () {
           _this.datas = _this.table.ajax.json().data;
         });

@@ -130,6 +130,8 @@
             url: _this.apiUrl,
             type:'GET',
           },
+          responsive: true,
+          columnDefs: [ { "defaultContent": "-", "targets": "_all" } ],
           columns:columns
         }).on('xhr', function () {
           _this.datas = _this.table.ajax.json().data;

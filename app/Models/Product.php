@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','price_forSale','price_fromSupplier','image','category_id','supplier_id'];
+    protected $fillable = ['name','price_forSale','price_fromSupplier','image','category_id','supplier_id','stock'];
 
 
     public function categories()
@@ -20,5 +20,10 @@ class Product extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetail::class);
     }
 }

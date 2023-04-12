@@ -24,7 +24,7 @@
             <div class="col-md-3 col-sm-4 mb-3" v-for="category in filteredList" id="mydiv">
                 <div class="card h-100" v-on:click="editData(category)">
                     <img :src="('storage/categories/') + category.image" alt="image" class="card-img-top" width="100%"
-                        style="height: 400px; object-fit: cover;">
+                        style="height: 300px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title"><strong>@{{ category.name }}</strong></h5>
                         <p class="card-text">@{{ category.products_count }}</p>
@@ -63,7 +63,6 @@
                                 v-if="editStatus">Delete</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
-
                 </form>
             </div>
         </div>
@@ -90,7 +89,7 @@
                 this.get_categories();
             },
             methods: {
-                get_categories(){
+                get_categories() {
                     const _this = this;
                     $.ajax({
                         url: apiUrl,
@@ -103,8 +102,8 @@
                         }
                     });
                 },
-                refresh(){
-                    $("#mydiv").load('categories.blade.php'+ " #mydiv");
+                refresh() {
+                    $("#mydiv").load('categories.blade.php' + " #mydiv");
                     get_categories();
                 },
                 addData() {
@@ -129,7 +128,7 @@
                             _method: 'DELETE'
                         }).then(response => {
                             alert('Data has been remove');
-                            this.get_categories().reload();
+                            this.get_categories();
                         });
                     };
                 },
@@ -140,7 +139,7 @@
 
                     axios.post(actionUrl, new FormData($(event.target)[0])).then(response => {
                         $('#modal-default').modal('hide');
-                        this.get_categories().reload();
+                        this.get_categories();
                     });
                 },
             },

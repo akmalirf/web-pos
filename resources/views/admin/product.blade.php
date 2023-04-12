@@ -39,7 +39,7 @@
                 <form :action="actionUrl" method="POST" autocomplete="off" @submit="submitForm($event,apiData.id)">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">apiData</h4>
+                            <h4 class="modal-title">Add product</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -149,7 +149,7 @@
                             _method: 'DELETE'
                         }).then(response => {
                             alert('Data has been remove');
-                            location.reload();
+                            this.get_apiDatas();
                         });
                     };
                 },
@@ -161,7 +161,7 @@
 
                     axios.post(actionUrl, new FormData($(event.target)[0])).then(response => {
                         $('#modal-default').modal('hide');
-                        location.reload();
+                        this.get_apiDatas();
                     });
                 },
             },
