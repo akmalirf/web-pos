@@ -30,7 +30,7 @@ class OrderController extends Controller
 
     public function api()
     {
-        $orders = Order::with('customer')->get();
+        $orders =  Order::where('status', '=', '1')->with('customer')->get();
 
         //return $total_price;
         
@@ -45,11 +45,11 @@ class OrderController extends Controller
         //     $join->on('orders.id','=','total.order_id');
         // })->first();
 
-        $order = Order::select('orders.id','customers.name','customers.phone_number','customers.address', OrderDetail::raw('sum(order_details.total_price) as total'))
+        $order = Order::select('orders.id','customers.name','orders.total_price','customers.phone_number','customers.address', OrderDetail::raw('sum(order_details.total_price) as total_price'))
         ->leftJoin('customers','orders.customer_id','=','customers.id')
         ->leftJoin('order_details','orders.id','=','order_details.order_id')
         ->where('orders.id','=',$request->id)
-        ->groupBy('orders.id','customers.name','customers.phone_number','customers.address')
+        ->groupBy('orders.id','customers.name','customers.phone_number','customers.address','orders.total_price' )
         ->first();
 
         //return $order;
@@ -81,6 +81,22 @@ class OrderController extends Controller
         //return $order;
         return view('admin.order.addDetail',compact('order','orderdetails','customer'));
     }
+
+    public function update(Request $request, Order $order)
+    {
+        $this->validate($request, [
+            'total_price'=>'required'
+        ],);
+        
+        $order->update([
+            'status'=> 0,
+            'total_price' => $request->total_price
+        ]);
+
+        return redirect('orders');
+    }
+
+    
     
     public function destroy(Order $order)
     {

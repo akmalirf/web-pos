@@ -18,7 +18,7 @@
                 </div>
 
                 <hr>
-                <div class="row overflow-auto col-md-11 mx-auto" style="height: 70vh">
+                <div class="row overflow-auto col-md-11 mx-auto" style="height: 80vh">
                     <div class="d-flex flex-wrap align-self-stretch">
                         <div class="col-md-4 col-sm-6 col-6 mb-3" v-for="apiData in filteredList" :key="apiData.id">
                             <div class="card h-100" v-on:click="addData(apiData)">
@@ -38,91 +38,88 @@
                 <hr>
             </div>
             <div class="card col-md-5 mb-5">
-                <div class="card-header">
-                    <div class="card-title">
-                        <table>
-                            <tr>
-                                <td colspan="2" style="width: 200px">
-                                    <p class="h6">Order ID</p>
-                                </td>
-                                <td>
-                                    <p class="h6">:@{{ orderData.id }}</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <p class="h6">Name</p>
-                                </td>
-                                <td>
-                                    <p class="h6">:@{{ orderData.name }}</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <p class="h6">Number</p>
-                                </td>
-                                <td>
-                                    <p class="h6">: @{{ orderData.phone_number }}</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <p class="h6">:Address</p>
-                                </td>
-                                <td>
-                                    <p class="h6">: @{{ orderData.address }}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-search"></i></span>
-                        </div>
-                        <input type="text" class="form-control" autocomplete="off" placeholder="Search from title"
-                            v-model="searchOrderDetail">
-                    </div>
-                    <hr>
-                    <div class="row overflow-auto" style="height: 40vh">
-                        <div class="d-flex flex-wrap align-self-stretch">
-                            <div class="col-md-12 col-sm-12 mb-3">
-                                <table class="table table-striped text-center">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Product</th>
-                                            <th>amount</th>
-                                            <th>total</th>
-                                            <th>action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(orderDetailData,i) in orderfilteredList" :key="i">
-                                            <th scope="row">@{{ i + 1 }}</th>
-                                            <td>@{{ orderDetailData.name }}</td>
-                                            <td>@{{ orderDetailData.amount_of_item }}</td>
-                                            <td>Rp@{{ numberWithSpaces(orderDetailData.total_price) }}</td>
-                                            <td>
-                                                <a href="#" v-on:click="editData(orderDetailData)"><i
-                                                        class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="#" v-on:click="deleteData(orderDetailData.id)"><i
-                                                        class="fa-solid fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                <form action="{{ route('orders.update', $order->id) }}" method="post">
+                    @csrf
+                    {{ method_field('PUT') }}
+                    <div class="card-header">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <div class="card-title" style="width: 100%">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Order ID</span>
+                                </div>
+                                <input type="number" name="order_id" class="form-control" value="{{ $order->id }}"
+                                    readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+                                </div>
+                                <input type="text" name="customer_id" class="form-control" :value="orderDatas.name"
+                                    readonly>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-text">
-                        <p>Total : Rp @{{  numberWithSpaces(+orderData.total) }}</p>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input type="text" class="form-control" autocomplete="off" placeholder="Search from title"
+                                v-model="searchOrderDetail">
+                        </div>
+                        <hr>
+                        <div class="row overflow-auto" style="height: 40vh">
+                            <div class="d-flex flex-wrap align-self-stretch">
+                                <div class="col-md-12 col-sm-12 mb-3">
+                                    <table class="table table-striped text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Product</th>
+                                                <th>amount</th>
+                                                <th>total</th>
+                                                <th>action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(orderDetailData,i) in orderfilteredList" :key="i">
+                                                <th scope="row">@{{ i + 1 }}</th>
+                                                <td>@{{ orderDetailData.name }}</td>
+                                                <td>@{{ orderDetailData.amount_of_item }}</td>
+                                                <td>Rp@{{ numberWithSpaces(orderDetailData.total_price) }}</td>
+                                                <td>
+                                                    <a href="#" v-on:click="editData(orderDetailData)"><i
+                                                            class="fa-solid fa-pen-to-square"></i></a>
+                                                    <a href="#" v-on:click="deleteData(orderDetailData.id)"><i
+                                                            class="fa-solid fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-primary w-100">Finish</button>
-                </div>
+                    <div class="card-footer">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Total</span>
+                            </div>
+                            <input type="number" name="total_price" class="form-control" :value="orderDatas.total_price"
+                                readonly>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Finish</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -253,7 +250,7 @@
                         url: apiOrderUrl + '?id=' + {{ $order->id }},
                         method: 'GET',
                         success: function(data) {
-                            _this.orderData = JSON.parse(data);
+                            _this.orderDatas = JSON.parse(data);
                         },
                         error: function(error) {
                             console.log(error);
@@ -292,6 +289,7 @@
 
                 },
                 numberWithSpaces(x) {
+                    x = "" + x;
                     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
                 },
                 deleteData(id) {
@@ -307,6 +305,19 @@
                             this.get_orderData();
                         });
                     };
+                },
+                proses() {
+                    const _this = this;
+                    $.ajax({
+                        url: apiOrderUrl + '?id=' + {{ $order->id }},
+                        method: 'GET',
+                        success: function(data) {
+                            _this.orderDatas = JSON.parse(data);
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
                 },
                 submitForm(event, apiData) {
                     console.log(event);

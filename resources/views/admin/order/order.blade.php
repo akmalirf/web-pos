@@ -30,7 +30,7 @@
                             </div>
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="inputGroupSelect01">Customer Name</label>
-                                <select name="customer_id" class="form-select" id="inputGroupSelect01" required>
+                                <select filter="true" name="customer_id" class="form-select" id="inputGroupSelect01" required>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                     @endforeach

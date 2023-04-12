@@ -8,21 +8,8 @@
     return $total;
   }
 
-  function increase_stock($stockNow,$stockNew) {
-    $stockNowArray = json_decode(json_encode($stockNow), true);
-    $sto = strval($stockNew);
-    $stockNewArray = array($sto);
-    $merge = array_merge($stockNowArray,$stockNewArray);
-    $sum = array_sum($merge);
-    return $sum;  
-  };
-
-  function decrease_stock($stockNow,$stockNew) {
-    $stockNowArray = json_decode(json_encode($stockNow), true);
-    $sto = strval($stockNew);
-    $stockNewArray = array(-$sto);
-    $merge = array_merge($stockNowArray,$stockNewArray);
-    $sum = array_sum($merge);
-    return $sum;  
-  };
+  function update_stock($amountOld,$amountNew){
+    $total = $amountOld - $amountNew;
+    return $total;
+  }
 ?>

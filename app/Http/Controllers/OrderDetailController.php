@@ -81,14 +81,18 @@ class OrderDetailController extends Controller
             'amount_of_item' => 'required'
         ]);
 
-        $amount = $request->amount_of_item;
+        $amountNew = $request->amount_of_item;
         $price_product = Product::where('id', '=', $request->product_id)->pluck('price_forSale');
 
-        $total_price = count_totalPriceProduct($price_product, $amount);
+        $amountOld =  $orderdetail->amount_of_item;
+
+        Product::where('id', '=', $orderdetail->product_id)->increment('stock', update_stock($amountOld,$amountNew));
+
+        $total_price = count_totalPriceProduct($price_product, $amountNew);
 
         $orderdetail->update([
             'amount_of_item' => $request->amount_of_item,
-            'total_price' => $total_price
+            'total_price' => intval($total_price)
         ]);
 
         return redirect('orders');
