@@ -19,7 +19,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{ $total_supplier }}</h3>
 
@@ -35,7 +35,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-success">
                 <div class="inner">
                     <h3>{{ $total_order }}</h3>
 

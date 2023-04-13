@@ -23,9 +23,13 @@ class ProductController extends Controller
         return view('admin.product', compact('categories', 'suppliers'));
     }
 
-    public function api()
-    {
-        $products = Product::all();
+    public function api(Request $request)
+    {   
+        if($request->stock == "ready"){
+            $products = Product::where('stock','>','0')->get();
+        }else{
+            $products = Product::all();
+        }
         return json_encode($products);
     }
 

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Suppliers')
+@section('title', 'Report')
 
 @section('css')
     <!-- DataTables -->
@@ -98,7 +98,7 @@
     <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script type="text/javascript">
-        var actionUrl = `{{ url('reports') }}`;
+        var actionUrl = `{{ url('orders') }}`;
         var apiUrl = `{{ url('api/reports') }}`;
 
         var columns = [{

@@ -22,13 +22,14 @@
 
         <div class="row">
             <div class="col-md-3 col-sm-4 mb-3" v-for="apiData in filteredList" :key="apiData.id">
-                <div class="card h-100" v-on:click="editData(apiData)">
+                <div class="card h-100" v-on:click="editData(apiData)" v-bind:class="(apiData.stock==0)?'bg-danger':''">
                     <img :src="('storage/products/') + apiData.image" alt="image" class="card-img-top" width="100%"
                         style="height: 400px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title"><strong>@{{ apiData.name }}</strong></h5>
                         <p class="card-text">Rp.@{{ numberWithSpaces(apiData.price_forSale )}}</p>
-                        <a href="#" class="btn btn-primary btn-sm">Go somewhere</a>
+                        <p class="card-text">Stock @{{ apiData.stock }}</p>
+                        <a href="#" class="btn btn-primary btn-sm">Tap to Edit</a>
                     </div>
                 </div>
             </div>

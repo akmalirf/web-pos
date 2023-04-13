@@ -26,6 +26,7 @@
                                     width="100%" style="height: 100px; object-fit: cover;">
                                 <div class="card-body">
                                     <h6 class="card-text"><b>@{{ apiData.name }}</b></h6>
+                                    <h6 class="card-text"><b>Stock@{{ apiData.stock }}</b></h6>
                                 </div>
                                 <div class="card-footer">
                                     <p class="card-text"><small>Rp@{{ numberWithSpaces(apiData.price_forSale) }}</small></p>
@@ -224,7 +225,7 @@
                 get_apiDatas() {
                     const _this = this;
                     $.ajax({
-                        url: apiUrl,
+                        url: apiUrl + '?stock=ready',
                         method: 'GET',
                         success: function(data) {
                             _this.apiDatas = JSON.parse(data);
