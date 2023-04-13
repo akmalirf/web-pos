@@ -50,25 +50,21 @@ class OrderDetailController extends Controller
             'amount_of_item' => 'required'
         ]);
 
-        $price_product = Product::where('id', '=', $request->product_id)->pluck('price_forSale');
         $amount = $request->amount_of_item;
+        $price_product = Product::where('id', '=', $request->product_id)->pluck('price_forSale');
+        $profit_product = Product::where('id', '=', $request->product_id)->pluck('profit');
+
         $total_price = count_totalPriceProduct($price_product, $amount);
+        $total_profit = count_totalPriceProduct($profit_product, $amount);
 
         Product::where('id', '=', $request->product_id)->decrement('stock', $amount);
-
-        // $stock = Product::where('id', '=', $request->product_id)->pluck('stock');
-        // $newStock = decrease_stock($stock, $amount);
-        // Product::where('id', '=', $request->product_id)->update([
-        //     'stock' => $newStock
-        // ]);
-
         OrderDetail::create([
             'order_id' => $request->order_id,
             'product_id' => $request->product_id,
             'amount_of_item' => $amount,
             'total_price' => $total_price,
+            'profit' => $total_profit,
         ]);
-
         return redirect('orders');
     }
 
@@ -81,18 +77,20 @@ class OrderDetailController extends Controller
             'amount_of_item' => 'required'
         ]);
 
+        $amountOld =  $orderdetail->amount_of_item;
         $amountNew = $request->amount_of_item;
         $price_product = Product::where('id', '=', $request->product_id)->pluck('price_forSale');
+        $profit_product = Product::where('id', '=', $request->product_id)->pluck('profit');
 
-        $amountOld =  $orderdetail->amount_of_item;
-
-        Product::where('id', '=', $orderdetail->product_id)->increment('stock', update_stock($amountOld,$amountNew));
+        Product::where('id', '=', $orderdetail->product_id)->increment('stock', update_stock($amountOld, $amountNew));
 
         $total_price = count_totalPriceProduct($price_product, $amountNew);
+        $total_profit = count_totalPriceProduct($profit_product, $amountNew);
 
         $orderdetail->update([
             'amount_of_item' => $request->amount_of_item,
-            'total_price' => intval($total_price)
+            'total_price' => intval($total_price),
+            'profit' => $total_profit,
         ]);
 
         return redirect('orders');
@@ -100,7 +98,6 @@ class OrderDetailController extends Controller
 
     public function destroy(Request $request, OrderDetail $orderdetail)
     {
-        //OrderDetail::where('id', '=', $request->id)->delete();
         Product::where('id', '=', $orderdetail->product_id)->increment('stock', $orderdetail->amount_of_item);
         $orderdetail->delete();
 

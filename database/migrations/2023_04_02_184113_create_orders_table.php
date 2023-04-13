@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('total_price', $precision = 10, $scale = 2);
+            $table->decimal('profit', $precision = 10, $scale = 2);
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });

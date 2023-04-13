@@ -59,11 +59,11 @@
                                 <input type="number" name="order_id" class="form-control" value="{{ $order->id }}"
                                     readonly>
                             </div>
-                            <div class="input-group mb-3">
+                            <div class="input-group  mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
                                 </div>
-                                <input type="text" name="customer_id" class="form-control" :value="orderDatas.name"
+                                <input type="text"  name="customer_id" class="form-control" :value="orderDatas.name"
                                     readonly>
                             </div>
                         </div>
@@ -114,8 +114,11 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Total</span>
                             </div>
-                            <input type="number" name="total_price" class="form-control" :value="orderDatas.total_price"
+                            <input type="number" min="1" name="total_product" class="form-control" :value="orderDatas.order_details_count"
                                 readonly>
+                        </div>
+                        <div>
+                            <p>Total : Rp @{{ numberWithSpaces(orderDatas.total_price) }}</p>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Finish</button>
                     </div>
@@ -285,6 +288,7 @@
                         this.get_orderDetailDatas();
                         this.get_orderData();
                         $("#amount").val('');
+                        $("#aaa").val(orderData.total_price);
                     });
 
                 },

@@ -40,3 +40,10 @@ Route::get('/api/orderdetails', [App\Http\Controllers\OrderDetailController::cla
 
 Route::resource('/customers', App\Http\Controllers\CustomerController::class);
 Route::get('/api/customers', [App\Http\Controllers\CustomerController::class, 'api']);
+
+Route::resource('/reports' , App\Http\Controllers\ReportController::class);
+Route::get('/api/reports', [App\Http\Controllers\ReportController::class, 'api']);
+
+Route::resource('/dashboard' , App\Http\Controllers\DashboardController::class);
+Route::get('/api/dashboard', [App\Http\Controllers\DashboardController::class, 'api']);
+

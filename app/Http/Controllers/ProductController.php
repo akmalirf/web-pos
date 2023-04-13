@@ -42,6 +42,7 @@ class ProductController extends Controller
 
         $file = $request->file('image');
         $path = time() . '_' . $request->name . '_' . $file->getClientOriginalExtension();
+        $profit = countProfit($request->price_fromSupplier,$request->price_forSale);
 
         Storage::disk('local')->put('public/products/' . $path, file_get_contents($file));
 
@@ -51,7 +52,8 @@ class ProductController extends Controller
             'price_fromSupplier' => $request->price_fromSupplier,
             'image' => $path,
             'category_id' => $request->category_id,
-            'supplier_id' => $request->supplier_id
+            'supplier_id' => $request->supplier_id,
+            'profit' =>$profit
         ]);
 
         return redirect('products');
@@ -73,18 +75,19 @@ class ProductController extends Controller
             ]);
         } else {
             Storage::delete('public/products/' . $product->image);
-
             $file = $request->file('image');
             $path = time() . '_' . $request->name . '_' . $file->getClientOriginalExtension();
-
             Storage::disk('local')->put('public/products/' . $path, file_get_contents($file));
+
+            $profit = countProfit($request->price_fromSupplier,$request->price_forSale);
             $product->update([
                 'name' => $request->name,
                 'price_forSale' => $request->price_forSale,
                 'price_fromSupplier' => $request->price_fromSupplier,
                 'image' => $path,
                 'category_id' => $request->category_id,
-                'supplier_id' => $request->supplier_id
+                'supplier_id' => $request->supplier_id,
+                'profit' => $profit,
             ]);
         }
 

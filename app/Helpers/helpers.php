@@ -12,4 +12,17 @@
     $total = $amountOld - $amountNew;
     return $total;
   }
-?>
+
+  function addSameProduct($amountOld,$amountNew){
+    $total = $amountOld + $amountNew;
+    return $total;
+  }
+
+  function countProfit($Pricebuy,$Pricesell){
+    $profit = $Pricesell - $Pricebuy;
+    return $profit;
+  }
+
+  
+
+

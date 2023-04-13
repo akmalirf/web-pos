@@ -46,8 +46,9 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Product'.$i,
                 'image' => '1680653843_tes_jpg',
                 'stock' => '40',
-                'price_forSale' => '10000',
-                'price_fromSupplier' => '8000',
+                'price_forSale' => 10000,
+                'price_fromSupplier' => 8000,
+                'profit' => 2000,
                 'category_id' => rand(1,4),
                 'supplier_id' => rand(1,4)
             ]);

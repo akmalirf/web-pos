@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('price_forSale', $precision = 10, $scale = 2);
             $table->decimal('price_fromSupplier', $precision = 10, $scale = 2);
+            $table->decimal('profit', $precision = 10, $scale = 2);
             $table->timestamps();
         });
     }

@@ -6,12 +6,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
-use COM;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Stmt\Return_;
 
 class OrderController extends Controller
 {
@@ -32,24 +27,17 @@ class OrderController extends Controller
     {
         $orders =  Order::where('status', '=', '1')->with('customer')->get();
 
-        //return $total_price;
-        
-        //return $orders;
         return json_encode($orders);
     }
 
     public function apiOrder(Request $request)
     {   
-        // $total = OrderDetail::select('order_id', OrderDetail::raw('sum(total_price) as total'))->groupBy('order_id');
-        // $orders = Order::where('id','=',$request->id)->with('customer')->joinSub($total, 'total', function (JoinClause $join){
-        //     $join->on('orders.id','=','total.order_id');
-        // })->first();
-
-        $order = Order::select('orders.id','customers.name','orders.total_price','customers.phone_number','customers.address', OrderDetail::raw('sum(order_details.total_price) as total_price'))
+        $order = Order::select('orders.id','customers.name','orders.total_price','orders.profit','customers.phone_number','customers.address', OrderDetail::raw('sum(order_details.total_price) as total_price'),OrderDetail::raw('sum(order_details.profit) as profit'))
         ->leftJoin('customers','orders.customer_id','=','customers.id')
         ->leftJoin('order_details','orders.id','=','order_details.order_id')
+        ->withCount('order_details')
         ->where('orders.id','=',$request->id)
-        ->groupBy('orders.id','customers.name','customers.phone_number','customers.address','orders.total_price' )
+        ->groupBy('orders.id','customers.name','customers.phone_number','customers.address','orders.total_price', 'orders.profit' )
         ->first();
 
         //return $order;
@@ -57,7 +45,8 @@ class OrderController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
+        //return $request;
         $this->validate($request, [
             'customer_id' => 'required',
         ],);
@@ -66,6 +55,7 @@ class OrderController extends Controller
             'user_id' => $request->user_id,
             'customer_id' => $request->customer_id,
             'total_price' => '0',
+            'profit' => '0',
         ]);
 
         return redirect('orders');
@@ -85,12 +75,16 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $this->validate($request, [
-            'total_price'=>'required'
+            'total_product'=>'required|gt:0'
         ],);
+
+        $profit = OrderDetail::where('order_id',$order->id)->sum('profit');
+        $total_price = OrderDetail::where('order_id',$order->id)->sum('total_price');
         
         $order->update([
             'status'=> 0,
-            'total_price' => $request->total_price
+            'total_price' => $total_price,
+            'profit' => $profit
         ]);
 
         return redirect('orders');

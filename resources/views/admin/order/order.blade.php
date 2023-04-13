@@ -19,10 +19,19 @@
                             {{ session('error') }}
                         </div>
                     @endif
-                    <form action="{{ route('orders.store') }}" method="POST" @submit="addOrder($event)">
+                    <form :action="actionUrl" method="POST" @submit="addOrder($event)">
                         @csrf
                         <div class="col-4"></div>
                         <div class="card-body">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Admin user</span>
                                 <input name="user_id" type="text" class="form-control" aria-label="Sizing example input"
@@ -30,7 +39,8 @@
                             </div>
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="inputGroupSelect01">Customer Name</label>
-                                <select filter="true" name="customer_id" class="form-select" id="inputGroupSelect01" required>
+                                <select filter="true" name="customer_id" class="form-select" id="inputGroupSelect01"
+                                    required>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                     @endforeach
@@ -42,7 +52,7 @@
                         </div>
                     </form>
                 </div>
-                
+
             </div>
             <div class="col-sm-6">
                 <div class="card">
@@ -57,14 +67,17 @@
                                         <h5 class="card-title">#@{{ i + 1 }}</h5>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">Nama Customer @{{ apiData.customer.name }}
+                                        <p class="card-text">Nama Customer : @{{ apiData.customer.name }}
                                             @{{ apiData.customer_id }}</p>
-                                        <p>status @{{ apiData.status }}</p>
+                                        <span>Status :</span><span v-if="apiData.status == 1"> Unfinished </span>
+                                        <p v-if="apiData.status == 0">Finished </p>
                                     </div>
                                     <div class="card-footer">
                                         <div class="d-flex justify-content-between">
-                                            <a :href="actionUrl+'/'+ apiData.id + ('/edit')" class="btn btn-primary" v-on:click="editData(apiDataOrder)">Process Order</a>
-                                            <a href="#" class="btn btn-danger" v-on:click="deleteData(apiData.id)">Cancel</a>
+                                            <a :href="actionUrl + '/' + apiData.id + ('/edit')" class="btn btn-primary"
+                                                v-on:click="editData(apiDataOrder)">Process Order</a>
+                                            <a href="#" class="btn btn-danger"
+                                                v-on:click="deleteData(apiData.id)">Cancel</a>
                                         </div>
                                     </div>
                                 </div>
