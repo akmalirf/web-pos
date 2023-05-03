@@ -38,7 +38,7 @@ class ReportController extends Controller
 
             foreach(range(1,12) as $month) {
                 if ($key == 0) {
-                    $data_month[] = Order::selectRaw("sum(profit) as total")->whereMonth('created_at', $month)->first()->total;
+                    $data_month[] = Order::selectRaw("sum(profit) as total")->whereMonth('created_at', $month)->where('status',0)->first()->total;
                 } 
             }
 
@@ -52,7 +52,7 @@ class ReportController extends Controller
 
     public function api()
     {
-        $orders = Order::all();
+        $orders = Order::where('status',0);
 
         $datatables = datatables()->of($orders)
             ->addColumn('date', function ($order) {

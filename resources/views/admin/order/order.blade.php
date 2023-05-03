@@ -215,6 +215,7 @@
                         }).then(response => {
                             alert('Data has been remove');
                             this.get_apiDatas();
+                            this.get_countOrderDatas();
                         });
                     };
                 },
@@ -227,6 +228,7 @@
                     axios.post(actionUrl, new FormData($(event.target)[0])).then(response => {
                         $('#modal-default').modal('hide');
                         this.get_apiDatas();
+                        this.get_countOrderDatas();
                     });
                 },
                 numberWithSpaces(x) {
