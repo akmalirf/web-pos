@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Product')
+@section('title', 'Detail')
 
 @section('content')
     <div id="controller">
@@ -21,7 +21,7 @@
                 <div class="row overflow-auto col-md-11 mx-auto" style="height: 80vh">
                     <div class="d-flex flex-wrap align-self-stretch">
                         <div class="col-md-4 col-sm-6 col-6 mb-3" v-for="apiData in filteredList" :key="apiData.id">
-                            <div class="card h-100" v-on:click="addData(apiData)">
+                            <div class="card" v-on:click="addData(apiData)">
                                 <img :src="productStorageUrl + '/' + apiData.image" alt="image" class="card-img-top"
                                     width="100%" style="height: 100px; object-fit: cover;">
                                 <div class="card-body">
@@ -64,7 +64,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
                                 </div>
-                                <input type="text"  name="customer_id" class="form-control" :value="orderDatas.name"
+                                <input type="text" name="customer_id" class="form-control" :value="orderDatas.name"
                                     readonly>
                             </div>
                         </div>
@@ -111,17 +111,25 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Total</span>
-                            </div>
-                            <input type="number" min="1" name="total_product" class="form-control" :value="orderDatas.order_details_count"
-                                readonly>
-                        </div>
                         <div>
-                            <p>Total : Rp @{{ numberWithSpaces(orderDatas.total_price) }}</p>
+                            <p>Total : Rp <span>@{{ numberWithSpaces(orderDatas.total_price) }}</span></p>
+                            <div class="input-group  mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Total Bayar</span>
+                                </div>
+                                <input class="form-control" v-model="bayar" type=""
+                                placeholder="Jumlah uang">
+                            </div>
+                            <div class="input-group  mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Kembalian</span>
+                                </div>
+                                <input class="form-control"
+                                :value="'Rp' + ' ' + numberWithSpaces(bayar - orderDatas.total_price)" type=""
+                                placeholder="Jumlah uang kembali" readonly>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Finish</button>
+                        <button type="submit" class="btn btn-primary w-100 mt-2">Finish</button>
                     </div>
                 </form>
             </div>
@@ -215,6 +223,7 @@
                 searchOrderDetail: '',
                 editStatus: false,
                 addStatus: false,
+                bayar: ''
             },
             mounted: function() {
                 this.get_apiDatas();

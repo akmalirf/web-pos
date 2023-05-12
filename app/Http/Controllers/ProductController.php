@@ -37,9 +37,10 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'image' => 'required',
-            'price_forSale' => 'required',
-            'price_fromSupplier' => 'required',
+            'image' => 'required|file',
+            'price_forSale' => 'required|numeric|gt:0',
+            'price_fromSupplier' => 'required|numeric|gt:0',
+            'stock' => 'required|numeric',
             'category_id' => 'required',
             'supplier_id' => 'required'
         ],);
@@ -55,6 +56,7 @@ class ProductController extends Controller
             'price_forSale' => $request->price_forSale,
             'price_fromSupplier' => $request->price_fromSupplier,
             'image' => $path,
+            'stock' => $request->stock,
             'category_id' => $request->category_id,
             'supplier_id' => $request->supplier_id,
             'profit' =>$profit
@@ -74,6 +76,7 @@ class ProductController extends Controller
                 'name' => $request->name,
                 'price_forSale' => $request->price_forSale,
                 'price_fromSupplier' => $request->price_fromSupplier,
+                'stock' => $request->stock,
                 'category_id' => $request->category_id,
                 'supplier_id' => $request->supplier_id
             ]);

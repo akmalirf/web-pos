@@ -58,7 +58,7 @@
                                 <label>Price from Supplier</label>
                                 <input type="number" name="price_fromSupplier" class="form-control"
                                     placeholder="Price from supplier" :value="apiData.price_fromSupplier" required>
-                                <label>Name</label>
+                                <label>stock</label>
                                 <input type="number" name="stock" class="form-control" placeholder="Enter stock"
                                     :value="apiData.stock" required>
                             </div>

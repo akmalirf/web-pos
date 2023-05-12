@@ -86,21 +86,25 @@ class OrderController extends Controller
     }
 
     public function update(Request $request, Order $order)
-    {
-        $this->validate($request, [
-            'total_product' => 'required|gt:0'
-        ],);
+    {   
+        $total_product = Order::where('id',$order->id)->withCount('order_details')->first();
 
-        $profit = OrderDetail::where('order_id', $order->id)->sum('profit');
-        $total_price = OrderDetail::where('order_id', $order->id)->sum('total_price');
+        //return $total_product;
+        if($total_product->order_details_count > 0){
+            $profit = OrderDetail::where('order_id', $order->id)->sum('profit');
+            $total_price = OrderDetail::where('order_id', $order->id)->sum('total_price');
+    
+            $order->update([
+                'status' => 0,
+                'total_price' => $total_price,
+                'profit' => $profit
+            ]);
 
-        $order->update([
-            'status' => 0,
-            'total_price' => $total_price,
-            'profit' => $profit
-        ]);
+            return redirect('orders');
+        }else{
+            return redirect()->back()->withErrors('Product is 0');
+        }
 
-        return redirect('orders');
     }
 
 
